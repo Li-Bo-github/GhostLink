@@ -1,0 +1,24 @@
+image: node:latest
+
+variables:
+  PUBLIC_URL: /ghostlink
+
+cache:
+  paths:
+    - frontend/node_modules/
+
+stages:
+  - deploy
+
+pages:
+  stage: deploy
+  script:
+    - cd frontend                     # Navigate to the frontend directory
+    - npm install                     # Install dependencies
+    - npm run build                   # Build the project
+    - mv build ../public              # Move the build output to the public directory
+  artifacts:
+    paths:
+      - public                        # Upload the public directory for GitLab Pages
+  only:
+    - main                            # Run this job only on the main branch
